@@ -3,23 +3,47 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  
+  constructor(props) {
+      super(props);
+      this.state= {
+        keyword: ""
+      }
+      this.updateKey = this.updateKey.bind(this);
+    }
+  
+
+  updateKey(e){
+    this.setState({
+      keyword: e.target.value
+    })
+  }
+
   render() {
+
+    const locations = [ "Durban,SA" , "Cape Town,SA" ,"PE,SA" , "Johannesburg,SA", "Pretoria,SA", "Delhi,India", "Gujarat,India", "Big Ben,UK" , "California,USA" , "London,UK" ]
+    var keyChars =[];
+    var count = 0;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <p>Enter location:</p>
+        <input type="text" onChange={this.updateKey}/>
+        <ul>
+          {
+            locations.map((location, i)=>{
+              count = 0;
+              keyChars = this.state.keyword.split("");
+              keyChars.forEach((letter)=>{
+                if(location.indexOf(letter.toLowerCase()) > -1 || location.indexOf(letter.toUpperCase()) > -1){
+                  count++;
+                }
+              })
+
+              if(count === keyChars.length){
+                return <li key={i}>{location}</li>
+              }
+          })}
+        </ul>
       </div>
     );
   }
